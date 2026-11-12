@@ -10,6 +10,14 @@ on:
         description: Existing version tag to build and publish
         required: true
         default: v1.0.0
+      macos_arch:
+        description: Use Intel when Apple Silicon runners are at capacity
+        type: choice
+        required: true
+        default: aarch64
+        options:
+          - aarch64
+          - x86_64
 
 env:
   RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
@@ -21,14 +29,16 @@ jobs:
   build:
     name: Build ${{ matrix.platform }}
     runs-on: ${{ matrix.runner }}
+    env:
+      RELEASE_PLATFORM: ${{ matrix.platform }}
     strategy:
       fail-fast: false
       matrix:
         include:
           - platform: linux-x86_64
             runner: ubuntu-24.04
-          - platform: macos-aarch64
-            runner: macos-latest
+          - platform: ${{ inputs.macos_arch == 'x86_64' && 'macos-x86_64' || 'macos-aarch64' }}
+            runner: ${{ inputs.macos_arch == 'x86_64' && 'macos-15-intel' || 'macos-latest' }}
           - platform: windows-x86_64
             runner: windows-2022
 
@@ -133,7 +143,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Package macOS disk image
-        if: matrix.platform == 'macos-aarch64'
+        if: runner.os == 'macOS'
         run: mvn --batch-mode -Pnative-release -DskipTests -Dgluonfx.packageType=dmg gluonfx:package
 
       - name: Stage Windows native executable and installer
@@ -155,14 +165,14 @@ jobs:
           Copy-Item -LiteralPath $nativeExe -Destination (Join-Path $releaseDir "3d-worms-$tag-windows-x86_64.exe")
 
       - name: Stage macOS disk image
-        if: matrix.platform == 'macos-aarch64'
+        if: runner.os == 'macOS'
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p dist
-          image=$(find target/gluonfx/aarch64-darwin -maxdepth 1 -type f -name '*.dmg' -print -quit)
+          image=$(find target/gluonfx -maxdepth 2 -type f -name '*.dmg' -print -quit)
           test -n "$image"
-          cp "$image" "dist/3d-worms-${RELEASE_TAG}-macos-aarch64.dmg"
+          cp "$image" "dist/3d-worms-${RELEASE_TAG}-${RELEASE_PLATFORM}.dmg"
 
       - name: Stage Linux native image
         if: matrix.platform == 'linux-x86_64'
