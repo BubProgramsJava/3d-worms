@@ -1,0 +1,146 @@
+name: Native release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build ${{ matrix.platform }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux-x86_64
+            runner: ubuntu-24.04
+          - platform: macos-aarch64
+            runner: macos-15
+          - platform: windows-x86_64
+            runner: windows-2022
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up GraalVM 21
+        uses: graalvm/setup-graalvm@v1
+        with:
+          distribution: graalvm-community
+          java-version: '21'
+          components: native-image
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Maven 3.8.8
+        uses: stCarolas/setup-maven@v5.1
+        with:
+          maven-version: '3.8.8'
+
+      - name: Set up the Windows C++ toolchain
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Install Linux JavaFX build dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes build-essential libgtk-3-dev libxtst-dev libxrender-dev libxrandr-dev libxt-dev libxfixes-dev libxi-dev libxinerama-dev
+
+      - name: Patch GraalVM Linux static library layout
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          set -euo pipefail
+          library_dir="$GRAALVM_HOME/lib/svm/clibraries/linux-amd64"
+          glibc_dir="$library_dir/glibc"
+          if [[ -d "$glibc_dir" ]]; then
+            for source in "$glibc_dir"/*; do
+              [[ -f "$source" ]] || continue
+              name="${source##*/}"
+              [[ -e "$library_dir/$name" ]] || ln -s "glibc/$name" "$library_dir/$name"
+            done
+          fi
+      - name: Build the native image
+        run: mvn --batch-mode -Pnative-release -DskipTests clean package
+
+      - name: Package Windows installer
+        if: matrix.platform == 'windows-x86_64'
+        shell: pwsh
+        run: mvn --batch-mode -Pnative-release -DskipTests "-Dgluonfx.packageType=exe" gluonfx:package
+
+      - name: Package macOS disk image
+        if: matrix.platform == 'macos-aarch64'
+        run: mvn --batch-mode -Pnative-release -DskipTests -Dgluonfx.packageType=dmg gluonfx:package
+
+      - name: Stage Windows native executable and installer
+        if: matrix.platform == 'windows-x86_64'
+        shell: pwsh
+        run: |
+          $releaseDir = 'dist'
+          $nativeDir = 'target/gluonfx/x86_64-windows'
+          $tag = $env:GITHUB_REF_NAME
+          New-Item -ItemType Directory -Force -Path $releaseDir | Out-Null
+          $nativeExe = Join-Path $nativeDir '3d-worms.exe'
+          if (-not (Test-Path -LiteralPath $nativeExe)) {
+            throw "Native executable not found: $nativeExe"
+          }
+          $installer = Get-ChildItem -LiteralPath $nativeDir -File -Filter '*.exe' |
+            Where-Object { $_.FullName -ne (Resolve-Path -LiteralPath $nativeExe).Path } |
+            Select-Object -First 1
+          if (-not $installer) {
+            throw 'GluonFX did not create a Windows installer.'
+          }
+          Copy-Item -LiteralPath $nativeExe -Destination (Join-Path $releaseDir "3d-worms-$tag-windows-x86_64.exe")
+          Copy-Item -LiteralPath $installer.FullName -Destination (Join-Path $releaseDir "3d-worms-$tag-windows-x86_64-setup.exe")
+
+      - name: Stage macOS disk image
+        if: matrix.platform == 'macos-aarch64'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          image=$(find target/gluonfx/aarch64-darwin -maxdepth 1 -type f -name '*.dmg' -print -quit)
+          test -n "$image"
+          cp "$image" "dist/3d-worms-${GITHUB_REF_NAME}-macos-aarch64.dmg"
+
+      - name: Stage Linux native image
+        if: matrix.platform == 'linux-x86_64'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          binary=target/gluonfx/x86_64-linux/3d-worms
+          test -f "$binary"
+          tar -czf "dist/3d-worms-${GITHUB_REF_NAME}-linux-x86_64.tar.gz" -C target/gluonfx/x86_64-linux 3d-worms
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ matrix.platform }}
+          path: dist/*
+          if-no-files-found: error
+
+  publish:
+    name: Publish GitHub release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          merge-multiple: true
+
+      - name: Create or update the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" release-assets/* --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" release-assets/* --verify-tag --generate-notes
+          fi

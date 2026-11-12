@@ -1,0 +1,80 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>se.hirt.bubb</groupId>
+    <artifactId>3d-worm</artifactId>
+    <version>1.0.0</version>
+    <name>3d-worms</name>
+
+    <properties>
+        <maven.compiler.release>21</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <javafx.version>21.0.6</javafx.version>
+        <gluonfx.plugin.version>1.0.29</gluonfx.plugin.version>
+        <gluonfx.packageType></gluonfx.packageType>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <sourceDirectory>src</sourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>se.hirt.bubb.worm.Main</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>native-release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.gluonhq</groupId>
+                        <artifactId>gluonfx-maven-plugin</artifactId>
+                        <version>${gluonfx.plugin.version}</version>
+                        <configuration>
+                            <target>host</target>
+                            <mainClass>se.hirt.bubb.worm.Main</mainClass>
+                            <appIdentifier>se.hirt.bubb.worm</appIdentifier>
+                            <releaseConfiguration>
+                                <packageType>${gluonfx.packageType}</packageType>
+                                <description>3D Worms - a colorful 3D snake game.</description>
+                                <vendor>3D Worms</vendor>
+                                <skipSigning>true</skipSigning>
+                            </releaseConfiguration>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>build-native-image</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
