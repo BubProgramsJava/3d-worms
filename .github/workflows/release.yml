@@ -4,9 +4,18 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing version tag to build and publish
+        required: true
+        default: v1.0.0
+
+env:
+  RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
@@ -19,19 +28,28 @@ jobs:
           - platform: linux-x86_64
             runner: ubuntu-24.04
           - platform: macos-aarch64
-            runner: macos-15
+            runner: macos-latest
           - platform: windows-x86_64
             runner: windows-2022
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ env.RELEASE_TAG }}
+          fetch-depth: 0
+
+      - name: Verify release source tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          test "$(git rev-parse HEAD)" = "$(git rev-parse "refs/tags/$RELEASE_TAG^{commit}")"
 
       - name: Set up GraalVM 21
         uses: graalvm/setup-graalvm@v1
         with:
-          distribution: graalvm-community
+          distribution: ${{ runner.os == 'Linux' && 'graalvm-community' || 'graalvm' }}
           java-version: '21'
-          components: native-image
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Maven 3.8.8
@@ -49,7 +67,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install --yes build-essential libgtk-3-dev libxtst-dev libxrender-dev libxrandr-dev libxt-dev libxfixes-dev libxi-dev libxinerama-dev
+          sudo apt-get install --yes build-essential libgtk-3-dev libxtst-dev libxrender-dev libxrandr-dev libxt-dev libxfixes-dev libxi-dev libxinerama-dev libfreetype6-dev libgl1-mesa-dev libpango1.0-dev libasound2-dev libavcodec-dev libavformat-dev libavutil-dev
 
       - name: Patch GraalVM Linux static library layout
         if: runner.os == 'Linux'
@@ -71,7 +89,48 @@ jobs:
       - name: Package Windows installer
         if: matrix.platform == 'windows-x86_64'
         shell: pwsh
-        run: mvn --batch-mode -Pnative-release -DskipTests "-Dgluonfx.packageType=exe" gluonfx:package
+        run: |
+          $compiler = Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6/ISCC.exe'
+          if (-not (Test-Path -LiteralPath $compiler)) {
+            throw 'Inno Setup 6 is required to build the Windows installer.'
+          }
+          $nativeDir = Join-Path $PWD 'target/gluonfx/x86_64-windows'
+          $releaseDir = Join-Path $PWD 'dist'
+          $version = $env:RELEASE_TAG.Substring(1)
+          $installerScript = Join-Path $env:RUNNER_TEMP '3d-worms.iss'
+          # Keep the installer definition in the workflow so recovery runs can
+          # package the original tagged sources with the corrected build tools.
+          @'
+          [Setup]
+          AppId={{874AB831-0F3A-438F-A805-B1A605765293}
+          AppName=3D Worms
+          AppVersion={#AppVersion}
+          AppPublisher=3D Worms
+          AppSupportURL=https://github.com/BubProgramsJava/3d-worms/issues
+          DefaultDirName={localappdata}\Programs\3D Worms
+          DefaultGroupName=3D Worms
+          DisableProgramGroupPage=yes
+          OutputDir={#ReleaseDir}
+          OutputBaseFilename=3d-worms-{#ReleaseTag}-windows-x86_64-setup
+          UninstallDisplayIcon={app}\3d-worms.exe
+          Compression=lzma2
+          SolidCompression=yes
+          WizardStyle=modern
+          ArchitecturesAllowed=x64compatible
+          ArchitecturesInstallIn64BitMode=x64compatible
+          PrivilegesRequired=lowest
+
+          [Files]
+          Source: "{#NativeDir}\3d-worms.exe"; DestDir: "{app}"; Flags: ignoreversion
+
+          [Icons]
+          Name: "{group}\3D Worms"; Filename: "{app}\3d-worms.exe"
+
+          [Run]
+          Filename: "{app}\3d-worms.exe"; Description: "Launch 3D Worms"; Flags: nowait postinstall skipifsilent
+          '@ | Set-Content -LiteralPath $installerScript -Encoding utf8
+          & $compiler "/DAppVersion=$version" "/DReleaseTag=$env:RELEASE_TAG" "/DNativeDir=$nativeDir" "/DReleaseDir=$releaseDir" $installerScript
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Package macOS disk image
         if: matrix.platform == 'macos-aarch64'
@@ -83,20 +142,17 @@ jobs:
         run: |
           $releaseDir = 'dist'
           $nativeDir = 'target/gluonfx/x86_64-windows'
-          $tag = $env:GITHUB_REF_NAME
+          $tag = $env:RELEASE_TAG
           New-Item -ItemType Directory -Force -Path $releaseDir | Out-Null
           $nativeExe = Join-Path $nativeDir '3d-worms.exe'
           if (-not (Test-Path -LiteralPath $nativeExe)) {
             throw "Native executable not found: $nativeExe"
           }
-          $installer = Get-ChildItem -LiteralPath $nativeDir -File -Filter '*.exe' |
-            Where-Object { $_.FullName -ne (Resolve-Path -LiteralPath $nativeExe).Path } |
-            Select-Object -First 1
-          if (-not $installer) {
-            throw 'GluonFX did not create a Windows installer.'
+          $installer = Join-Path $releaseDir "3d-worms-$tag-windows-x86_64-setup.exe"
+          if (-not (Test-Path -LiteralPath $installer)) {
+            throw "Windows installer not found: $installer"
           }
           Copy-Item -LiteralPath $nativeExe -Destination (Join-Path $releaseDir "3d-worms-$tag-windows-x86_64.exe")
-          Copy-Item -LiteralPath $installer.FullName -Destination (Join-Path $releaseDir "3d-worms-$tag-windows-x86_64-setup.exe")
 
       - name: Stage macOS disk image
         if: matrix.platform == 'macos-aarch64'
@@ -106,7 +162,7 @@ jobs:
           mkdir -p dist
           image=$(find target/gluonfx/aarch64-darwin -maxdepth 1 -type f -name '*.dmg' -print -quit)
           test -n "$image"
-          cp "$image" "dist/3d-worms-${GITHUB_REF_NAME}-macos-aarch64.dmg"
+          cp "$image" "dist/3d-worms-${RELEASE_TAG}-macos-aarch64.dmg"
 
       - name: Stage Linux native image
         if: matrix.platform == 'linux-x86_64'
@@ -116,9 +172,19 @@ jobs:
           mkdir -p dist
           binary=target/gluonfx/x86_64-linux/3d-worms
           test -f "$binary"
-          tar -czf "dist/3d-worms-${GITHUB_REF_NAME}-linux-x86_64.tar.gz" -C target/gluonfx/x86_64-linux 3d-worms
+          tar -czf "dist/3d-worms-${RELEASE_TAG}-linux-x86_64.tar.gz" -C target/gluonfx/x86_64-linux 3d-worms
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload native build diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v5
+        with:
+          name: diagnostics-${{ matrix.platform }}
+          path: |
+            target/gluonfx/log/**
+            target/gluonfx/**/gvm/log/**
+          if-no-files-found: ignore
+
+      - uses: actions/upload-artifact@v5
         with:
           name: release-${{ matrix.platform }}
           path: dist/*
@@ -128,10 +194,13 @@ jobs:
     name: Publish GitHub release
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           path: release-assets
+          pattern: release-*
           merge-multiple: true
 
       - name: Create or update the release
@@ -139,8 +208,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
-            gh release upload "$GITHUB_REF_NAME" release-assets/* --clobber
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" release-assets/* --clobber
           else
-            gh release create "$GITHUB_REF_NAME" release-assets/* --verify-tag --generate-notes
+            gh release create "$RELEASE_TAG" release-assets/* --verify-tag --generate-notes
           fi
