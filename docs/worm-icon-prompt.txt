@@ -1,0 +1,12 @@
+Generated with the built-in imagegen tool (transparent background).
+Game asset: src/main/resources/se/hirt/bubb/worm/worm-icon.png
+The generated artwork was downscaled to a 512 x 512 transparent PNG.
+
+Use case: stylized-concept
+Asset type: square application icon for a friendly JavaFX 3D worm game
+Primary request: a cute worm with enormous goofy googly eyes, as a polished game icon.
+Subject: one chubby mint-green worm curled into a compact upright S shape, rounded segmented body, large friendly head, two oversized white googly eyes with slightly mismatched dark pupils, tiny cheerful smile. Match a colorful playful 3D snake game.
+Style/medium: clean soft 3D toy-like cartoon illustration, smooth rounded forms, crisp silhouette and restrained shading.
+Composition/framing: square 1:1 canvas; isolated worm centered and filling 88 percent of the canvas with a small safe transparent margin; face and eyes remain very legible at 32 pixels. Simple bold shapes.
+Scene/backdrop: genuinely transparent background, no platform, no ground plane, no drop shadow outside the character.
+Constraints: no text, no letters, no watermark, no border, no extra objects, no limbs, no antennas. Exactly two large googly eyes. Output a single icon.

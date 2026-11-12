@@ -15,6 +15,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseButton;
@@ -225,6 +226,10 @@ public class Main extends Application {
         scene.setOnKeyPressed(event -> handleKey(event.getCode()));
 
         stage.setTitle("3D Worm");
+        String iconUrl = Main.class.getResource("worm-icon.png").toExternalForm();
+        for (int size : new int[]{16, 32, 48, 64, 128, 256}) {
+            stage.getIcons().add(new Image(iconUrl, size, size, true, true));
+        }
         stage.setMinWidth(620);
         stage.setMinHeight(500);
         stage.setResizable(true);

@@ -1,5 +1,7 @@
 # 3D Worms
 
+<img src="src/main/resources/se/hirt/bubb/worm/worm-icon.png" alt="A smiling mint-green worm with big googly eyes" width="200" height="200">
+
 A JavaFX 3D worm game with single-player, AI duel, and LAN multiplayer modes.
 
 ## Run on the JVM
