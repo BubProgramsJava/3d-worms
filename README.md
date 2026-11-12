@@ -39,12 +39,4 @@ gh workflow run release.yml --ref main -f release_tag=v1.0.0
 
 This checks out the tagged sources and publishes artifacts for that tag without moving it.
 
-If GitHub cannot allocate an Apple Silicon runner, use the Intel macOS runner pool for the recovery run:
-
-```powershell
-gh workflow run release.yml --ref main -f release_tag=v1.0.0 -f macos_arch=x86_64
-```
-
-That run labels its Mac download `macos-x86_64`; tag-triggered releases still build `macos-aarch64` by default.
-
 Release packages are intentionally unsigned. Windows releases include both a portable executable and a setup installer; macOS releases include a DMG; Linux releases include a tar.gz containing the native executable.
