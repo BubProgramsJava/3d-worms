@@ -66,7 +66,7 @@ public class Main extends Application {
     private SubScene gameView;
     private final Affine cameraPoseTransform = new Affine();
     private Stage stage;
-    private Cell direction = new Cell(1, 0);git
+    private Cell direction = new Cell(1, 0);
     private Cell queuedDirection = direction;
     private Cell previousDirection = direction;
     private List<Cell> previousWorm = new ArrayList<>();
