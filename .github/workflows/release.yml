@@ -107,6 +107,7 @@ jobs:
             throw 'Inno Setup 6 is required to build the Windows installer.'
           }
           $nativeDir = Join-Path $PWD 'target/native'
+          $appIcon = Join-Path $PWD 'config/native/windows/worm-icon.ico'
           $releaseDir = Join-Path $PWD 'dist'
           $version = $env:RELEASE_TAG.Substring(1)
           $installerScript = Join-Path $env:RUNNER_TEMP '3d-worms.iss'
@@ -124,6 +125,10 @@ jobs:
           DisableProgramGroupPage=yes
           OutputDir={#ReleaseDir}
           OutputBaseFilename=3d-worms-{#ReleaseTag}-windows-x86_64-setup
+          ; Recovery runs can check out source tags from before the ICO was added.
+          #if FileExists(AppIcon)
+          SetupIconFile={#AppIcon}
+          #endif
           UninstallDisplayIcon={app}\3d-worms.exe
           Compression=lzma2
           SolidCompression=yes
@@ -141,7 +146,7 @@ jobs:
           [Run]
           Filename: "{app}\3d-worms.exe"; Description: "Launch 3D Worms"; Flags: nowait postinstall skipifsilent
           '@ | Set-Content -LiteralPath $installerScript -Encoding utf8
-          & $compiler "/DAppVersion=$version" "/DReleaseTag=$env:RELEASE_TAG" "/DNativeDir=$nativeDir" "/DReleaseDir=$releaseDir" $installerScript
+          & $compiler "/DAppVersion=$version" "/DReleaseTag=$env:RELEASE_TAG" "/DNativeDir=$nativeDir" "/DAppIcon=$appIcon" "/DReleaseDir=$releaseDir" $installerScript
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Package macOS disk image
