@@ -10,6 +10,11 @@ on:
         description: Existing version tag to build and publish
         required: true
         default: v1.0.0
+      include_macos:
+        description: Build the Apple Silicon DMG (disable to recover during macOS runner shortages)
+        type: boolean
+        required: true
+        default: true
 
 env:
   RELEASE_TAG: ${{ inputs.release_tag || github.ref_name }}
@@ -20,17 +25,19 @@ permissions:
 jobs:
   build:
     name: Build ${{ matrix.platform }}
-    runs-on: ${{ matrix.runner }}
+    runs-on: >-
+      ${{ matrix.platform == 'linux-x86_64' && 'ubuntu-24.04' ||
+          matrix.platform == 'macos-aarch64' && 'macos-15' ||
+          'windows-2022' }}
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - platform: linux-x86_64
-            runner: ubuntu-24.04
-          - platform: macos-aarch64
-            runner: macos-latest
-          - platform: windows-x86_64
-            runner: windows-2022
+        # Tag pushes always build all platforms. Only an explicit manual recovery
+        # can omit macOS when GitHub cannot allocate an Apple Silicon runner.
+        platform: >-
+          ${{ fromJSON(github.event_name == 'workflow_dispatch' && !inputs.include_macos &&
+              '["linux-x86_64","windows-x86_64"]' ||
+              '["linux-x86_64","macos-aarch64","windows-x86_64"]') }}
 
     steps:
       - uses: actions/checkout@v5
@@ -206,6 +213,7 @@ jobs:
       - name: Create or update the release
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
           if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then

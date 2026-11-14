@@ -39,4 +39,14 @@ gh workflow run release.yml --ref main -f release_tag=v1.0.0
 
 This checks out the tagged sources and publishes artifacts for that tag without moving it.
 
+If GitHub cannot allocate a macOS runner, publish the Windows and Linux downloads with:
+
+```powershell
+gh workflow run release.yml --ref main -f release_tag=v1.0.0 -F include_macos=false
+```
+
+This recovery run omits the Mac download. Run the workflow again with its default inputs once Apple Silicon runners are available to add the DMG to the same release. Tag-triggered releases always build all three platforms; macOS builds use the pinned `macos-15` ARM64 image.
+
+Start a new workflow run from `main` after pushing workflow fixes. Re-running an old failed run uses its original workflow definition.
+
 Release packages are intentionally unsigned. Windows releases include both a portable executable and a setup installer; macOS releases include a DMG; Linux releases include a tar.gz containing the native executable.
