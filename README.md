@@ -14,9 +14,18 @@ mvn javafx:run
 
 ## Build a native release
 
-Native images require GraalVM 21 with Native Image, Maven 3.8.8, and the platform's C/C++ toolchain. Windows builds need Visual Studio 2022's Desktop development with C++ workload and an x64 Native Tools environment. The release workflow packages Windows installers with Inno Setup 6. macOS builds need Xcode Command Line Tools. Linux builds need GCC plus GTK, X11, ALSA, and FFmpeg development headers.
+Windows native releases use GraalVM Native Image 25 directly, with standard OpenJFX libraries and checked-in JavaFX reachability metadata. Set `JAVA_HOME` and `GRAALVM_HOME` to GraalVM 25 and build from an x64 Visual Studio Native Tools environment with the Desktop development with C++ workload installed:
 
-Build a native executable for the current host:
+```powershell
+mvn -Pnative-windows -DskipTests clean package
+.\target\native\3d-worms.exe
+```
+
+The Windows executable embeds the JavaFX DLLs, shaders, styles, and icon; it does not require a separate Java installation. The release workflow packages it with Inno Setup 6. See [Windows native build notes](docs/native-windows.md) for metadata collection and diagnostics.
+
+macOS and Linux native releases currently use GluonFX with GraalVM 21, Maven 3.8.8, and the platform's C/C++ toolchain. macOS builds need Xcode Command Line Tools. Linux builds need GCC plus GTK, X11, ALSA, and FFmpeg development headers.
+
+Build the macOS or Linux native executable:
 
 ```powershell
 mvn -Pnative-release -DskipTests clean package
@@ -48,5 +57,7 @@ gh workflow run release.yml --ref main -f release_tag=v1.0.0 -F include_macos=fa
 This recovery run omits the Mac download. Run the workflow again with its default inputs once Apple Silicon runners are available to add the DMG to the same release. Tag-triggered releases always build all three platforms; macOS builds use the pinned `macos-15` ARM64 image.
 
 Start a new workflow run from `main` after pushing workflow fixes. Re-running an old failed run uses its original workflow definition.
+
+The Windows Native Image 25 build requires a source tag that contains the `native-windows` profile, launcher, and metadata. For this migration, create a new version tag on the updated sources; a recovery run against the original sources cannot add those changes.
 
 Release packages are intentionally unsigned. Windows releases include both a portable executable and a setup installer; macOS releases include a DMG; Linux releases include a tar.gz containing the native executable.

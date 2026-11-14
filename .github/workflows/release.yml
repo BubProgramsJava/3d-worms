@@ -52,11 +52,11 @@ jobs:
           [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
           test "$(git rev-parse HEAD)" = "$(git rev-parse "refs/tags/$RELEASE_TAG^{commit}")"
 
-      - name: Set up GraalVM 21
+      - name: Set up GraalVM
         uses: graalvm/setup-graalvm@v1
         with:
           distribution: ${{ runner.os == 'Linux' && 'graalvm-community' || 'graalvm' }}
-          java-version: '21'
+          java-version: ${{ runner.os == 'Windows' && '25' || '21' }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Maven 3.8.8
@@ -91,7 +91,12 @@ jobs:
             done
           fi
       - name: Build the native image
+        if: runner.os != 'Windows'
         run: mvn --batch-mode -Pnative-release -DskipTests clean package
+
+      - name: Build the Windows image with GraalVM Native Image 25
+        if: runner.os == 'Windows'
+        run: mvn --batch-mode -Pnative-windows -DskipTests clean package
 
       - name: Package Windows installer
         if: matrix.platform == 'windows-x86_64'
@@ -101,7 +106,7 @@ jobs:
           if (-not (Test-Path -LiteralPath $compiler)) {
             throw 'Inno Setup 6 is required to build the Windows installer.'
           }
-          $nativeDir = Join-Path $PWD 'target/gluonfx/x86_64-windows'
+          $nativeDir = Join-Path $PWD 'target/native'
           $releaseDir = Join-Path $PWD 'dist'
           $version = $env:RELEASE_TAG.Substring(1)
           $installerScript = Join-Path $env:RUNNER_TEMP '3d-worms.iss'
@@ -148,7 +153,7 @@ jobs:
         shell: pwsh
         run: |
           $releaseDir = 'dist'
-          $nativeDir = 'target/gluonfx/x86_64-windows'
+          $nativeDir = 'target/native'
           $tag = $env:RELEASE_TAG
           New-Item -ItemType Directory -Force -Path $releaseDir | Out-Null
           $nativeExe = Join-Path $nativeDir '3d-worms.exe'
@@ -189,6 +194,8 @@ jobs:
           path: |
             target/gluonfx/log/**
             target/gluonfx/**/gvm/log/**
+            target/native/**/*.log
+            target/native/svm_err_*.md
           if-no-files-found: ignore
 
       - uses: actions/upload-artifact@v5
