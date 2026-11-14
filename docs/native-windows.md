@@ -18,6 +18,14 @@ The tested local toolchain was Oracle GraalVM 25.0.4+7.1 and MSVC 19.52.37029. T
 
 `Launcher` calls `Application.launch(Main.class, args)` without extending `Application`, so it works as a normal classpath entry point for both JVM tracing and Native Image. The executable embeds JavaFX DLLs and resources, which JavaFX loads through its native-library loader. No installed JDK is needed at runtime.
 
+## Windows icons
+
+The JavaFX window uses `src/main/resources/se/hirt/bubb/worm/worm-icon.png`. Explorer and shortcuts need a separate Windows icon resource embedded in the executable. `config/native/windows/worm-icon.ico` is derived from that PNG and contains 16, 32, 48, 64, 128, and 256 pixel images.
+
+During `prepare-package`, the Windows SDK resource compiler (`rc.exe`, available in the x64 Native Tools environment) compiles `config/native/windows/worm-icon.rc` into `target/worm-icon.res`. Native Image passes this resource to the Windows linker. The release workflow also uses the ICO as Inno Setup's `SetupIconFile`; installed shortcuts and the uninstall entry use the executable's embedded icon.
+
+When replacing the artwork, update both the PNG and ICO. Build a new release tag containing these files and the Maven configuration; recovery builds of older source tags cannot embed the new executable icon.
+
 ## Reachability metadata
 
 `config/native/windows/reachability-metadata.json` was collected with GraalVM 25's tracing agent while running this application on Windows with the Direct3D pipeline. Its JNI and reflection registrations cover the Glass window system, DirectWrite fonts, JavaFX controls, and Direct3D renderer. Resource globs additionally include JavaFX DLLs, all shaders and styles, resource bundles, and the application icon rather than only assets exercised during tracing.

@@ -66,6 +66,28 @@
                         </executions>
                     </plugin>
                     <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.6.3</version>
+                        <executions>
+                            <execution>
+                                <id>compile-windows-icon</id>
+                                <phase>prepare-package</phase>
+                                <goals><goal>exec</goal></goals>
+                                <configuration>
+                                    <executable>rc.exe</executable>
+                                    <workingDirectory>${project.basedir}/config/native/windows</workingDirectory>
+                                    <arguments>
+                                        <argument>/nologo</argument>
+                                        <argument>/fo</argument>
+                                        <argument>${project.build.directory}/worm-icon.res</argument>
+                                        <argument>worm-icon.rc</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
                         <groupId>org.graalvm.buildtools</groupId>
                         <artifactId>native-maven-plugin</artifactId>
                         <version>1.1.18</version>
@@ -80,6 +102,7 @@
                                 <buildArg>-march=compatibility</buildArg>
                                 <buildArg>-H:+IncludeAllLocales</buildArg>
                                 <buildArg>-H:ConfigurationFileDirectories=${project.basedir}/config/native/windows</buildArg>
+                                <buildArg>-H:NativeLinkerOption=${project.build.directory}/worm-icon.res</buildArg>
                             </buildArgs>
                         </configuration>
                         <executions>
