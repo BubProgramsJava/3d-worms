@@ -56,7 +56,7 @@ jobs:
         uses: graalvm/setup-graalvm@v1
         with:
           distribution: ${{ runner.os == 'Linux' && 'graalvm-community' || 'graalvm' }}
-          java-version: ${{ runner.os == 'Windows' && '25' || '21' }}
+          java-version: ${{ runner.os == 'Linux' && '21' || '25' }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Maven 3.8.8
@@ -90,9 +90,13 @@ jobs:
               [[ -e "$library_dir/$name" ]] || ln -s "glibc/$name" "$library_dir/$name"
             done
           fi
-      - name: Build the native image
-        if: runner.os != 'Windows'
+      - name: Build the Linux image with GluonFX
+        if: runner.os == 'Linux'
         run: mvn --batch-mode -Pnative-release -DskipTests clean package
+
+      - name: Build the macOS image with GraalVM Native Image 25
+        if: runner.os == 'macOS'
+        run: mvn --batch-mode -Pnative-macos -DskipTests clean package
 
       - name: Build the Windows image with GraalVM Native Image 25
         if: runner.os == 'Windows'
@@ -149,9 +153,15 @@ jobs:
           & $compiler "/DAppVersion=$version" "/DReleaseTag=$env:RELEASE_TAG" "/DNativeDir=$nativeDir" "/DAppIcon=$appIcon" "/DReleaseDir=$releaseDir" $installerScript
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-      - name: Package macOS disk image
+      - name: Package macOS app bundle and disk image
         if: matrix.platform == 'macos-aarch64'
-        run: mvn --batch-mode -Pnative-release -DskipTests -Dgluonfx.packageType=dmg gluonfx:package
+        shell: bash
+        run: |
+          set -euo pipefail
+          config/native/macos/package-app.sh \
+            --version "${RELEASE_TAG#v}" \
+            --output-dir dist \
+            --dmg-name "3d-worms-${RELEASE_TAG}-macos-aarch64.dmg"
 
       - name: Stage Windows native executable and installer
         if: matrix.platform == 'windows-x86_64'
@@ -171,15 +181,10 @@ jobs:
           }
           Copy-Item -LiteralPath $nativeExe -Destination (Join-Path $releaseDir "3d-worms-$tag-windows-x86_64.exe")
 
-      - name: Stage macOS disk image
+      - name: Verify the macOS disk image
         if: matrix.platform == 'macos-aarch64'
         shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p dist
-          image=$(find target/gluonfx/aarch64-darwin -maxdepth 1 -type f -name '*.dmg' -print -quit)
-          test -n "$image"
-          cp "$image" "dist/3d-worms-${RELEASE_TAG}-macos-aarch64.dmg"
+        run: test -f "dist/3d-worms-${RELEASE_TAG}-macos-aarch64.dmg"
 
       - name: Stage Linux native image
         if: matrix.platform == 'linux-x86_64'
