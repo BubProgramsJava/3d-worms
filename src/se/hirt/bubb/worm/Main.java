@@ -3,6 +3,7 @@ package se.hirt.bubb.worm;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Point3D;
 import javafx.geometry.Pos;
@@ -31,6 +32,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Affine;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -864,10 +866,21 @@ public class Main extends Application {
         lan.setOnAction(event -> showLanMenu());
         Button settings = menuButton("Settings");
         settings.setOnAction(event -> showSettingsMenu());
+        Button exit = menuButton("Exit");
+        exit.setOnAction(event -> exitGame());
         menuPanel.getChildren().setAll(title, menuSnakeCanvas, nameRow, nameStatusLabel,
-                playButton, duel, lan, customize, settings);
+                playButton, duel, lan, customize, settings, exit);
         mainMenuLayer.getChildren().setAll(menuPanel);
         updateNameControls();
+    }
+
+    /**
+     * Quits the way closing the window does, so every close handler runs first. On macOS the
+     * launcher's handler ends the process there; elsewhere closing the last window exits JavaFX.
+     */
+    private void exitGame() {
+        Event.fireEvent(stage, new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
+        stage.close();
     }
 
     private void updateNameControls() {
