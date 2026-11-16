@@ -1,6 +1,6 @@
 # macOS Native Image build
 
-The `native-macos` Maven profile builds `target/native/3d-worms` with GraalVM Native Image 25 and standard OpenJFX 21.0.6. It does not invoke GluonFX or use its static JavaFX SDK. Linux still uses the separate `native-release` profile until its JavaFX metadata has been collected and verified.
+The `native-macos` Maven profile builds `target/native/3d-worms` with GraalVM Native Image 25 and standard OpenJFX 21.0.6. It does not invoke GluonFX or use its static JavaFX SDK. Windows and Linux have their own profiles; see the [Windows](native-windows.md) and [Linux](native-linux.md) notes.
 
 ## Toolchain and build
 
@@ -43,14 +43,14 @@ When JavaFX or the application's dynamic UI changes, collect and merge fresh met
 mvn -DskipTests package dependency:build-classpath -Dmdep.outputFile=target/native-classpath.txt
 CP="target/classes:$(cat target/native-classpath.txt)"
 mkdir -p target/trace-classes
-javac -cp "$CP" -d target/trace-classes config/native/macos/TraceDriver.java
+javac -cp "$CP" -d target/trace-classes config/native/TraceDriver.java
 java --enable-native-access=ALL-UNNAMED \
     -Duser.home="$(mktemp -d)" \
     -agentlib:native-image-agent=config-merge-dir=config/native/macos \
     -cp "target/trace-classes:$CP" TraceDriver --quit=exit
 ```
 
-`TraceDriver` walks the UI instead of leaving it to be clicked through by hand: it names the player, remaps a control, buys and wears customizations, plays a duel and a single-player round with camera orbiting, opens LAN discovery and hosts a game, and uses the pause menu, then quits. A throwaway `user.home` keeps the traced session away from a real player profile. `--quit=exit` is needed here because the agent writes its metadata from a JVM shutdown hook, which the launcher's immediate exit on close would skip; that run ends with JavaFX's unclean toolkit shutdown, after the metadata has been written. Review the resulting JSON before committing it, and re-apply the three deliberate groups above if the agent's merge drops them.
+`TraceDriver`, shared with the Linux build, walks the UI instead of leaving it to be clicked through by hand: it names the player, remaps a control, buys and wears customizations, plays a duel and a single-player round with camera orbiting, opens LAN discovery and hosts a game, and uses the pause menu, then quits. A throwaway `user.home` keeps the traced session away from a real player profile. `--quit=exit` is needed here because the agent writes its metadata from a JVM shutdown hook, which the launcher's immediate exit on close would skip; that run ends with JavaFX's unclean toolkit shutdown, after the metadata has been written. Review the resulting JSON before committing it, and re-apply the three deliberate groups above if the agent's merge drops them.
 
 ## Verifying a build
 

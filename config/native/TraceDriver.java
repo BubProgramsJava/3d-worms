@@ -29,9 +29,13 @@ import java.util.concurrent.TimeUnit;
  *
  * <p>Building this class as a second native image re-walks the same screens inside the executable,
  * which is how missing registrations are found without clicking through the game by hand.
+ *
+ * <p>The game starts through the same entry point as the platform's native image: {@code MacLauncher}
+ * on macOS, which must own the process main thread, and {@code Launcher} everywhere else.
  */
 public final class TraceDriver {
     private static final long FX_TIMEOUT_SECONDS = 30;
+    private static final boolean IS_MAC = System.getProperty("os.name", "").startsWith("Mac");
 
     /** How the traced session ends; see {@link #quit()}. */
     private static volatile boolean quitByClosingWindow = true;
@@ -48,7 +52,8 @@ public final class TraceDriver {
         Thread driver = new Thread(TraceDriver::drive, "trace-driver");
         driver.setDaemon(true);
         driver.start();
-        se.hirt.bubb.worm.MacLauncher.main(new String[0]);
+        if (IS_MAC) se.hirt.bubb.worm.MacLauncher.main(new String[0]);
+        else se.hirt.bubb.worm.Launcher.main(new String[0]);
     }
 
     private static void drive() {
@@ -127,6 +132,10 @@ public final class TraceDriver {
      * executable is checked against. The tracing agent writes its metadata from a JVM shutdown
      * hook, which the launcher's immediate exit on close would skip, so a tracing run passes
      * {@code --quit=exit} and accepts JavaFX's unclean toolkit shutdown instead.
+     *
+     * <p>A synthetic close request only runs the handlers. On macOS the launcher's handler ends the
+     * process. Elsewhere nothing consumes the request, so the window is then hidden as Glass would
+     * hide it, and JavaFX exits once its last window is gone.
      */
     private static void quit() {
         if (!quitByClosingWindow) {
@@ -135,6 +144,7 @@ public final class TraceDriver {
         }
         Window window = primaryScene().getWindow();
         Event.fireEvent(window, new WindowEvent(window, WindowEvent.WINDOW_CLOSE_REQUEST));
+        window.hide();
     }
 
     /** Plays a few turns and orbits the camera so gameplay and 3D rendering are traced. */
