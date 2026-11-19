@@ -28,7 +28,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
+                <version>3.16.0</version>
             </plugin>
             <plugin>
                 <groupId>org.openjfx</groupId>
@@ -49,7 +49,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-enforcer-plugin</artifactId>
-                        <version>3.5.0</version>
+                        <version>3.7.0</version>
                         <executions>
                             <execution>
                                 <id>check-native-macos-toolchain</id>
@@ -66,7 +66,7 @@
                     <plugin>
                         <groupId>org.graalvm.buildtools</groupId>
                         <artifactId>native-maven-plugin</artifactId>
-                        <version>1.1.18</version>
+                        <version>1.1.19</version>
                         <configuration>
                             <mainClass>se.hirt.bubb.worm.MacLauncher</mainClass>
                             <imageName>3d-worms</imageName>
@@ -98,7 +98,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-enforcer-plugin</artifactId>
-                        <version>3.5.0</version>
+                        <version>3.7.0</version>
                         <executions>
                             <execution>
                                 <id>check-native-linux-toolchain</id>
@@ -115,7 +115,7 @@
                     <plugin>
                         <groupId>org.graalvm.buildtools</groupId>
                         <artifactId>native-maven-plugin</artifactId>
-                        <version>1.1.18</version>
+                        <version>1.1.19</version>
                         <configuration>
                             <mainClass>se.hirt.bubb.worm.Launcher</mainClass>
                             <imageName>3d-worms</imageName>
@@ -147,7 +147,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-enforcer-plugin</artifactId>
-                        <version>3.5.0</version>
+                        <version>3.7.0</version>
                         <executions>
                             <execution>
                                 <id>check-native-windows-toolchain</id>
@@ -164,7 +164,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
-                        <version>3.6.3</version>
+                        <version>3.7.0</version>
                         <executions>
                             <execution>
                                 <id>compile-windows-icon</id>
@@ -186,7 +186,7 @@
                     <plugin>
                         <groupId>org.graalvm.buildtools</groupId>
                         <artifactId>native-maven-plugin</artifactId>
-                        <version>1.1.18</version>
+                        <version>1.1.19</version>
                         <configuration>
                             <mainClass>se.hirt.bubb.worm.Launcher</mainClass>
                             <imageName>3d-worms</imageName>
