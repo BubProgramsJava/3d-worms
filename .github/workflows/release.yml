@@ -40,7 +40,7 @@ jobs:
               '["linux-x86_64","macos-aarch64","windows-x86_64"]') }}
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           ref: ${{ env.RELEASE_TAG }}
           fetch-depth: 0
@@ -59,10 +59,10 @@ jobs:
           java-version: '25'
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up Maven 3.8.8
+      - name: Set up Maven 3.10.1
         uses: stCarolas/setup-maven@v5.1
         with:
-          maven-version: '3.8.8'
+          maven-version: '3.10.1'
 
       - name: Set up the Windows C++ toolchain
         if: runner.os == 'Windows'
@@ -183,7 +183,7 @@ jobs:
 
       - name: Upload native build diagnostics
         if: failure()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: diagnostics-${{ matrix.platform }}
           path: |
@@ -191,7 +191,7 @@ jobs:
             target/native/svm_err_*.md
           if-no-files-found: ignore
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
           name: release-${{ matrix.platform }}
           path: dist/*
@@ -204,7 +204,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v8
         with:
           path: release-assets
           pattern: release-*

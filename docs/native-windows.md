@@ -1,6 +1,6 @@
 # Windows Native Image build
 
-The `native-windows` Maven profile builds `target/native/3d-worms.exe` with GraalVM Native Image 25 and standard OpenJFX 21.0.6. It does not invoke GluonFX or use its static JavaFX SDK. macOS and Linux have their own profiles; see the [macOS](native-macos.md) and [Linux](native-linux.md) notes.
+The `native-windows` Maven profile builds `target/native/3d-worms.exe` with GraalVM Native Image 25 and standard OpenJFX 25.0.5.1. It does not invoke GluonFX or use its static JavaFX SDK. macOS and Linux have their own profiles; see the [macOS](native-macos.md) and [Linux](native-linux.md) notes.
 
 ## Toolchain and build
 
