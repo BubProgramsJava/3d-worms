@@ -40,7 +40,7 @@ jobs:
               '["linux-x86_64","macos-aarch64","windows-x86_64"]') }}
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           ref: ${{ env.RELEASE_TAG }}
           fetch-depth: 0
@@ -55,14 +55,14 @@ jobs:
       - name: Set up GraalVM
         uses: graalvm/setup-graalvm@v1
         with:
-          distribution: ${{ runner.os == 'Linux' && 'graalvm-community' || 'graalvm' }}
-          java-version: ${{ runner.os == 'Windows' && '25' || '21' }}
+          distribution: graalvm
+          java-version: '25'
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up Maven 3.8.8
+      - name: Set up Maven 3.10.1
         uses: stCarolas/setup-maven@v5.1
         with:
-          maven-version: '3.8.8'
+          maven-version: '3.10.1'
 
       - name: Set up the Windows C++ toolchain
         if: runner.os == 'Windows'
@@ -70,29 +70,19 @@ jobs:
         with:
           arch: x64
 
-      - name: Install Linux JavaFX build dependencies
+      - name: Install the Linux C toolchain
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install --yes build-essential libgtk-3-dev libxtst-dev libxrender-dev libxrandr-dev libxt-dev libxfixes-dev libxi-dev libxinerama-dev libfreetype6-dev libgl1-mesa-dev libpango1.0-dev libasound2-dev libavcodec-dev libavformat-dev libavutil-dev
+          sudo apt-get install --yes build-essential zlib1g-dev
 
-      - name: Patch GraalVM Linux static library layout
+      - name: Build the Linux image with GraalVM Native Image 25
         if: runner.os == 'Linux'
-        shell: bash
-        run: |
-          set -euo pipefail
-          library_dir="$GRAALVM_HOME/lib/svm/clibraries/linux-amd64"
-          glibc_dir="$library_dir/glibc"
-          if [[ -d "$glibc_dir" ]]; then
-            for source in "$glibc_dir"/*; do
-              [[ -f "$source" ]] || continue
-              name="${source##*/}"
-              [[ -e "$library_dir/$name" ]] || ln -s "glibc/$name" "$library_dir/$name"
-            done
-          fi
-      - name: Build the native image
-        if: runner.os != 'Windows'
-        run: mvn --batch-mode -Pnative-release -DskipTests clean package
+        run: mvn --batch-mode -Pnative-linux -DskipTests clean package
+
+      - name: Build the macOS image with GraalVM Native Image 25
+        if: runner.os == 'macOS'
+        run: mvn --batch-mode -Pnative-macos -DskipTests clean package
 
       - name: Build the Windows image with GraalVM Native Image 25
         if: runner.os == 'Windows'
@@ -149,9 +139,15 @@ jobs:
           & $compiler "/DAppVersion=$version" "/DReleaseTag=$env:RELEASE_TAG" "/DNativeDir=$nativeDir" "/DAppIcon=$appIcon" "/DReleaseDir=$releaseDir" $installerScript
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-      - name: Package macOS disk image
+      - name: Package macOS app bundle and disk image
         if: matrix.platform == 'macos-aarch64'
-        run: mvn --batch-mode -Pnative-release -DskipTests -Dgluonfx.packageType=dmg gluonfx:package
+        shell: bash
+        run: |
+          set -euo pipefail
+          config/native/macos/package-app.sh \
+            --version "${RELEASE_TAG#v}" \
+            --output-dir dist \
+            --dmg-name "3d-worms-${RELEASE_TAG}-macos-aarch64.dmg"
 
       - name: Stage Windows native executable and installer
         if: matrix.platform == 'windows-x86_64'
@@ -171,15 +167,10 @@ jobs:
           }
           Copy-Item -LiteralPath $nativeExe -Destination (Join-Path $releaseDir "3d-worms-$tag-windows-x86_64.exe")
 
-      - name: Stage macOS disk image
+      - name: Verify the macOS disk image
         if: matrix.platform == 'macos-aarch64'
         shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p dist
-          image=$(find target/gluonfx/aarch64-darwin -maxdepth 1 -type f -name '*.dmg' -print -quit)
-          test -n "$image"
-          cp "$image" "dist/3d-worms-${RELEASE_TAG}-macos-aarch64.dmg"
+        run: test -f "dist/3d-worms-${RELEASE_TAG}-macos-aarch64.dmg"
 
       - name: Stage Linux native image
         if: matrix.platform == 'linux-x86_64'
@@ -187,23 +178,20 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p dist
-          binary=target/gluonfx/x86_64-linux/3d-worms
-          test -f "$binary"
-          tar -czf "dist/3d-worms-${RELEASE_TAG}-linux-x86_64.tar.gz" -C target/gluonfx/x86_64-linux 3d-worms
+          test -x target/native/3d-worms
+          tar -czf "dist/3d-worms-${RELEASE_TAG}-linux-x86_64.tar.gz" -C target/native 3d-worms
 
       - name: Upload native build diagnostics
         if: failure()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: diagnostics-${{ matrix.platform }}
           path: |
-            target/gluonfx/log/**
-            target/gluonfx/**/gvm/log/**
             target/native/**/*.log
             target/native/svm_err_*.md
           if-no-files-found: ignore
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
           name: release-${{ matrix.platform }}
           path: dist/*
@@ -216,7 +204,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v8
         with:
           path: release-assets
           pattern: release-*

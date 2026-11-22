@@ -3,6 +3,7 @@ package se.hirt.bubb.worm;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Point3D;
 import javafx.geometry.Pos;
@@ -15,6 +16,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
@@ -31,6 +33,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Affine;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -126,6 +129,7 @@ public class Main extends Application {
     private Label nameStatusLabel;
     private Button claimNameButton;
     private Button playButton;
+    private Button fullScreenButton;
     private long nextNameRefresh;
     private double cameraDistance = 30;
     private double orbitZoom = 1;
@@ -134,6 +138,8 @@ public class Main extends Application {
     private double lastCameraMouseX;
     private double lastCameraMouseY;
     private boolean orbitCamera;
+    /** The player's full-screen choice, toggled with F11 and kept in the profile. */
+    private boolean fullScreen = true;
     private boolean orbitDragging;
 
     @Override
@@ -233,11 +239,19 @@ public class Main extends Application {
         stage.setMinWidth(620);
         stage.setMinHeight(500);
         stage.setResizable(true);
-        stage.setFullScreenExitHint("The Main Menu is full screen");
+        stage.setFullScreenExitHint("Press F11 to leave full screen");
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setScene(scene);
         stage.show();
-        stage.setFullScreen(true);
+        stage.setFullScreen(fullScreen);
+        // The window manager can also leave full screen; keep the saved choice in step with it.
+        stage.fullScreenProperty().addListener((observable, wasFullScreen, isFullScreen) -> {
+            if (isFullScreen != fullScreen) {
+                fullScreen = isFullScreen;
+                saveProfile();
+                refreshFullScreenControls();
+            }
+        });
         stage.setOnCloseRequest(event -> {
             if (lanService != null) lanService.close();
         });
@@ -277,7 +291,6 @@ public class Main extends Application {
 
     private void beginLanMatch() {
         if (gameMode != GameMode.LAN) return;
-        stage.setFullScreen(false);
         mainMenuLayer.setVisible(false);
         menuLayer.setVisible(false);
         lanCountdown = 0;
@@ -719,6 +732,10 @@ public class Main extends Application {
     }
 
     private void handleKey(KeyCode key) {
+        if (key == KeyCode.F11) {
+            toggleFullScreen();
+            return;
+        }
         if (remappingAction != null) {
             if (key == KeyCode.ESCAPE) {
                 remappingAction = null;
@@ -726,9 +743,9 @@ public class Main extends Application {
             } else if (key == KeyCode.UP || key == KeyCode.DOWN || key == KeyCode.LEFT || key == KeyCode.RIGHT) {
                 remappingAction = null;
                 settingsMessage = "Arrow keys are reserved. Choose another key.";
-            } else if (key == KeyCode.ENTER || key == KeyCode.SPACE || key == KeyCode.C) {
+            } else if (key == KeyCode.ENTER || key == KeyCode.SPACE || key == KeyCode.C || key == KeyCode.Q) {
                 remappingAction = null;
-                settingsMessage = "Enter, Space, and C are reserved. Choose another key.";
+                settingsMessage = "Enter, Space, C, and Q are reserved. Choose another key.";
             } else {
                 setControlKey(remappingAction, key);
                 remappingAction = null;
@@ -737,6 +754,10 @@ public class Main extends Application {
                 saveProfile();
             }
             showSettingsMenu();
+            return;
+        }
+        if (key == KeyCode.Q && quitKeyActive()) {
+            exitGame();
             return;
         }
         if (key == KeyCode.ESCAPE) {
@@ -783,6 +804,15 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Q quits from the main menu screens and the pause menu, but not during play, where it sits
+     * next to the movement keys, and not while a text field such as the player name has focus.
+     */
+    private boolean quitKeyActive() {
+        if (stage.getScene().getFocusOwner() instanceof TextInputControl) return false;
+        return mainMenuLayer.isVisible() || (menuOpen && menuLayer.isVisible());
+    }
+
     private void openPauseMenu() {
         if (!menuOpen) resumeAfterMenu = running;
         menuOpen = true;
@@ -817,7 +847,6 @@ public class Main extends Application {
         }
         mainMenuLayer.setVisible(false);
         menuLayer.setVisible(false);
-        stage.setFullScreen(false);
         running = true;
         menuOpen = false;
         messageText.setText("");
@@ -829,7 +858,6 @@ public class Main extends Application {
         restart();
         mainMenuLayer.setVisible(false);
         menuLayer.setVisible(false);
-        stage.setFullScreen(false);
         running = true;
     }
 
@@ -837,7 +865,6 @@ public class Main extends Application {
         menuOpen = false;
         menuLayer.setVisible(false);
         mainMenuLayer.setVisible(true);
-        stage.setFullScreen(true);
         menuPanel = createMenuPanel();
 
         Label title = menuTitle("3D WORM");
@@ -864,10 +891,24 @@ public class Main extends Application {
         lan.setOnAction(event -> showLanMenu());
         Button settings = menuButton("Settings");
         settings.setOnAction(event -> showSettingsMenu());
+        Button exit = menuButton("Exit");
+        exit.setOnAction(event -> exitGame());
         menuPanel.getChildren().setAll(title, menuSnakeCanvas, nameRow, nameStatusLabel,
-                playButton, duel, lan, customize, settings);
+                playButton, duel, lan, customize, settings, exit);
         mainMenuLayer.getChildren().setAll(menuPanel);
         updateNameControls();
+        // A returning player starts on Play, so menu keys such as Q work straight away; a new
+        // player starts in the name field so they can type their name at once.
+        if (!lastPlayerName.isBlank()) Platform.runLater(playButton::requestFocus);
+    }
+
+    /**
+     * Quits the way closing the window does, so every close handler runs first. On macOS the
+     * launcher's handler ends the process there; elsewhere closing the last window exits JavaFX.
+     */
+    private void exitGame() {
+        Event.fireEvent(stage, new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
+        stage.close();
     }
 
     private void updateNameControls() {
@@ -1009,12 +1050,14 @@ public class Main extends Application {
         Button right = controlButton(GameAction.RIGHT, "Right", keyRight, "RIGHT");
         Label status = new Label(remappingAction == null ? settingsMessage : "Press a key for " + actionName(remappingAction) + " (Escape cancels)");
         status.setTextFill(Color.web("#ffe49a"));
+        fullScreenButton = menuButton(fullScreenLabel());
+        fullScreenButton.setOnAction(event -> toggleFullScreen());
         Button back = menuButton("Back to Main Menu");
         back.setOnAction(event -> {
             remappingAction = null;
             showMainMenu();
         });
-        menuPanel.getChildren().setAll(title, explanation, away, toward, left, right, status, back);
+        menuPanel.getChildren().setAll(title, explanation, away, toward, left, right, fullScreenButton, status, back);
         mainMenuLayer.getChildren().setAll(menuPanel);
         mainMenuLayer.setVisible(true);
     }
@@ -1362,11 +1405,26 @@ public class Main extends Application {
         }
     }
 
+    private void toggleFullScreen() {
+        fullScreen = !fullScreen;
+        stage.setFullScreen(fullScreen);
+        saveProfile();
+        refreshFullScreenControls();
+    }
+
+    private String fullScreenLabel() {
+        return "Full Screen: " + (fullScreen ? "On" : "Off") + " (F11)";
+    }
+
+    private void refreshFullScreenControls() {
+        if (fullScreenButton != null) fullScreenButton.setText(fullScreenLabel());
+    }
+
     private void updateControlsHint() {
         if (controlsText != null) {
             controlsText.setText(keyAway.getName() + " / UP: AWAY   " + keyToward.getName() + " / DOWN: TOWARD   "
                     + keyLeft.getName() + " / LEFT   " + keyRight.getName() + " / RIGHT   |   C: "
-                    + (orbitCamera ? "FOLLOW CAMERA" : "ORBIT CAMERA (RMB + SCROLL)") + "   |   ESC: MENU");
+                    + (orbitCamera ? "FOLLOW CAMERA" : "ORBIT CAMERA (RMB + SCROLL)") + "   |   F11: FULL SCREEN   |   ESC: MENU");
         }
     }
 
@@ -1769,6 +1827,7 @@ public class Main extends Application {
         keyLeft = readKey(profile, "keyLeft", KeyCode.A);
         keyRight = readKey(profile, "keyRight", KeyCode.D);
         lastPlayerName = profile.getProperty("lastPlayerName", "");
+        fullScreen = Boolean.parseBoolean(profile.getProperty("fullScreen", "true"));
         profileId = profile.getProperty("profileId", profileId);
         try {
             lastNameChangeMillis = Long.parseLong(profile.getProperty("lastNameChangeMillis", "0"));
@@ -1811,6 +1870,7 @@ public class Main extends Application {
         profile.setProperty("keyLeft", keyLeft.name());
         profile.setProperty("keyRight", keyRight.name());
         profile.setProperty("lastPlayerName", lastPlayerName);
+        profile.setProperty("fullScreen", Boolean.toString(fullScreen));
         profile.setProperty("profileId", profileId);
         profile.setProperty("lastNameChangeMillis", Long.toString(lastNameChangeMillis));
         dataStore.saveProfile(profile);

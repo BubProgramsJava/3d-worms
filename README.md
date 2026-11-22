@@ -6,7 +6,7 @@ A JavaFX 3D worm game with single-player, AI duel, and LAN multiplayer modes.
 
 ## Run on the JVM
 
-Use Java 21 and Maven:
+Use Java 25 and Maven:
 
 ```powershell
 mvn javafx:run
@@ -23,20 +23,24 @@ mvn -Pnative-windows -DskipTests clean package
 
 The Windows executable embeds the JavaFX DLLs, shaders, styles, and icon; it does not require a separate Java installation. The release workflow packages it with Inno Setup 6. See [Windows native build notes](docs/native-windows.md) for metadata collection and diagnostics.
 
-macOS and Linux native releases currently use GluonFX with GraalVM 21, Maven 3.8.8, and the platform's C/C++ toolchain. macOS builds need Xcode Command Line Tools. Linux builds need GCC plus GTK, X11, ALSA, and FFmpeg development headers.
+macOS native releases also use GraalVM Native Image 25 directly, with their own checked-in JavaFX reachability metadata. Set `JAVA_HOME` and `GRAALVM_HOME` to GraalVM 25 and install the Xcode Command Line Tools:
 
-Build the macOS or Linux native executable:
-
-```powershell
-mvn -Pnative-release -DskipTests clean package
+```bash
+mvn -Pnative-macos -DskipTests clean package
+config/native/macos/package-app.sh --version 1.0.0
+open dist/3d-worms-1.0.0-macos-aarch64.dmg
 ```
 
-Create a macOS installer after building the native image:
+Native Image produces a bare executable, so `package-app.sh` wraps it in `3D Worms.app` with the icon and `Info.plist` and writes the disk image. Run the executable through the bundle rather than directly, because Glass asks macOS for the bundle's name on startup. See [macOS native build notes](docs/native-macos.md) for metadata collection, the main-thread launcher, and diagnostics.
 
-```powershell
-# macOS disk image
-mvn -Pnative-release -Dgluonfx.packageType=dmg gluonfx:package
+Linux native releases use GraalVM Native Image 25 directly as well, with their own checked-in JavaFX reachability metadata. Set `JAVA_HOME` and `GRAALVM_HOME` to GraalVM 25 and install GCC and the zlib headers:
+
+```bash
+mvn -Pnative-linux -DskipTests clean package
+./target/native/3d-worms
 ```
+
+The Linux executable embeds the JavaFX libraries, shaders, and styles, and uses the system's GTK 3 and OpenGL at run time. JavaFX falls back to software rendering without 3D when it does not trust the OpenGL driver; start with `-Dprism.forceGPU=true` to override that. See [Linux native build notes](docs/native-linux.md) for metadata collection, renderers, and diagnostics.
 
 The tag release workflow builds Windows x64 and macOS arm64 installers, plus a Linux x64 archive. To publish a release, push a version tag such as `v1.0.0`.
 
@@ -58,6 +62,6 @@ This recovery run omits the Mac download. Run the workflow again with its defaul
 
 Start a new workflow run from `main` after pushing workflow fixes. Re-running an old failed run uses its original workflow definition.
 
-The Windows Native Image 25 build requires a source tag that contains the `native-windows` profile, launcher, and metadata. For this migration, create a new version tag on the updated sources; a recovery run against the original sources cannot add those changes.
+The Native Image 25 builds require a source tag that contains their profiles, launchers, and metadata. For these migrations, create a new version tag on the updated sources; a recovery run against the original sources cannot add those changes.
 
-Release packages are intentionally unsigned. Windows releases include both a portable executable and a setup installer; macOS releases include a DMG; Linux releases include a tar.gz containing the native executable.
+Release packages carry no Developer ID signature, so macOS shows an unidentified-developer warning on first launch. The macOS app bundle is ad-hoc signed, which Apple Silicon requires in order to run it at all. Windows releases include both a portable executable and a setup installer; macOS releases include a DMG; Linux releases include a tar.gz containing the native executable.
