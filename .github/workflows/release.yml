@@ -144,6 +144,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          # Recovery runs check out an older tag whose package-app.sh may lack later fixes.
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            git fetch --no-tags origin "${{ github.sha }}"
+            git checkout "${{ github.sha }}" -- config/native/macos/package-app.sh
+          fi
           config/native/macos/package-app.sh \
             --version "${RELEASE_TAG#v}" \
             --output-dir dist \
