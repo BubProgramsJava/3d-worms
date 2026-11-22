@@ -1,6 +1,6 @@
 # Linux Native Image build
 
-The `native-linux` Maven profile builds `target/native/3d-worms` with GraalVM Native Image 25 and standard OpenJFX 21.0.13.1. It does not invoke GluonFX or use its static JavaFX SDK.
+The `native-linux` Maven profile builds `target/native/3d-worms` with GraalVM Native Image 25 and standard OpenJFX 25.0.5.1. It does not invoke GluonFX or use its static JavaFX SDK.
 
 ## Toolchain and build
 
@@ -14,7 +14,7 @@ mvn -Pnative-linux -DskipTests clean package
 ./target/native/3d-worms
 ```
 
-The tested local toolchain was Oracle GraalVM 25.0.5.0.3+1.1 with GCC 13.3 on Ubuntu 24.04 x86_64. The release workflow uses the `ubuntu-24.04` runner with the same GraalVM major version and ships the bare executable in a tar.gz.
+The tested local toolchain was Oracle GraalVM 25.0.5.1+4.1 with OpenJFX 25.0.5.1 and GCC 13.3 on Ubuntu 24.04 x86_64. The release workflow uses the `ubuntu-24.04` runner with the same GraalVM major version and ships the bare executable in a tar.gz.
 
 No GTK, X11, OpenGL, or FFmpeg development packages are needed to build. The executable links only against glibc and zlib. JavaFX's native libraries travel inside it as resources, and JavaFX extracts them to `~/.openjfx/cache` on first start and loads them from there. Those libraries load the system's GTK 3, Pango, FreeType, and OpenGL at run time, which every desktop distribution provides. A build on Ubuntu 24.04 needs glibc 2.34 or newer on the player's machine.
 

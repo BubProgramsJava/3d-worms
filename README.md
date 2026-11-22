@@ -6,7 +6,7 @@ A JavaFX 3D worm game with single-player, AI duel, and LAN multiplayer modes.
 
 ## Run on the JVM
 
-Use Java 21 and Maven:
+Use Java 25 and Maven:
 
 ```powershell
 mvn javafx:run

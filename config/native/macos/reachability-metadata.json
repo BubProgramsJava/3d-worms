@@ -117,6 +117,9 @@
       "allDeclaredMethods": true
     },
     {
+      "type": "com.sun.javafx.PreviewFeature"
+    },
+    {
       "type": "com.sun.javafx.font.coretext.CGAffineTransform",
       "jniAccessible": true,
       "allDeclaredConstructors": true,
@@ -247,6 +250,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -259,6 +263,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -271,6 +276,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -283,6 +289,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -295,6 +302,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -307,6 +315,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -319,6 +328,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -331,6 +341,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -343,6 +354,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -355,6 +367,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -367,6 +380,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -379,6 +393,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -391,6 +406,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -403,6 +419,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -415,6 +432,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -427,6 +445,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -439,6 +458,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -451,6 +471,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -463,6 +484,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -475,6 +497,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -487,6 +510,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -499,6 +523,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -511,6 +536,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -523,6 +549,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -535,6 +562,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -547,6 +575,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -559,6 +588,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -571,6 +601,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -583,6 +614,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -595,6 +627,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -607,6 +640,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -619,6 +653,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -631,6 +666,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -643,6 +679,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -655,6 +692,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -667,6 +705,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -679,6 +718,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -691,6 +731,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -703,6 +744,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -715,6 +757,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -727,6 +770,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -739,6 +783,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -751,6 +796,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -763,6 +809,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -775,6 +822,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -787,6 +835,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -799,6 +848,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -811,6 +861,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -823,6 +874,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -835,6 +887,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -847,6 +900,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -859,6 +913,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -871,6 +926,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -883,6 +939,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -895,6 +952,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -907,6 +965,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -919,6 +978,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -931,6 +991,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -943,6 +1004,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -955,6 +1017,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -967,6 +1030,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -979,6 +1043,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -991,6 +1056,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1003,6 +1069,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1015,6 +1082,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1027,6 +1095,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1039,6 +1108,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1051,6 +1121,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1063,6 +1134,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1075,6 +1147,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1087,6 +1160,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1099,6 +1173,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1111,6 +1186,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1123,6 +1199,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1135,6 +1212,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1147,6 +1225,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1159,6 +1238,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1171,6 +1251,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1183,6 +1264,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1195,6 +1277,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1207,6 +1290,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1219,6 +1303,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1231,6 +1316,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1243,6 +1329,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1255,6 +1342,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1267,6 +1355,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1279,6 +1368,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1291,6 +1381,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1303,6 +1394,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1315,6 +1407,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1327,6 +1420,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1339,6 +1433,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1351,6 +1446,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1363,6 +1459,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1375,6 +1472,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1387,6 +1485,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1399,6 +1498,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1411,6 +1511,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1423,6 +1524,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1435,6 +1537,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1447,6 +1550,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1459,6 +1563,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1471,6 +1576,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1483,6 +1589,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1495,6 +1602,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1507,6 +1615,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1519,6 +1628,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1531,6 +1641,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1543,6 +1654,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1555,6 +1667,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1567,6 +1680,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1579,6 +1693,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1591,6 +1706,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1603,6 +1719,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1615,6 +1732,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1627,6 +1745,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1639,6 +1758,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1651,6 +1771,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1663,6 +1784,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1675,6 +1797,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1687,6 +1810,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1699,6 +1823,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1711,6 +1836,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1723,6 +1849,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1735,6 +1862,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1747,6 +1875,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1759,6 +1888,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1771,6 +1901,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1783,6 +1914,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1795,6 +1927,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1807,6 +1940,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1819,6 +1953,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1831,6 +1966,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1843,6 +1979,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1855,6 +1992,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1867,6 +2005,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1879,6 +2018,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1891,6 +2031,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1903,6 +2044,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1915,6 +2057,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1927,6 +2070,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1939,6 +2083,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1951,6 +2096,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1963,6 +2109,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1975,6 +2122,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1987,6 +2135,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -1999,6 +2148,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2011,6 +2161,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2023,6 +2174,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2035,6 +2187,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2047,6 +2200,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2059,6 +2213,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2071,6 +2226,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2083,6 +2239,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2095,6 +2252,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2107,6 +2265,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2119,6 +2278,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2131,6 +2291,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2143,6 +2304,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2155,6 +2317,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2167,6 +2330,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2179,6 +2343,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2191,6 +2356,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2203,6 +2369,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2215,6 +2382,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2227,6 +2395,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2239,6 +2408,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2251,6 +2421,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2263,6 +2434,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2275,6 +2447,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2287,6 +2460,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2299,6 +2473,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2311,6 +2486,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2323,6 +2499,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2335,6 +2512,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2347,6 +2525,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2359,6 +2538,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2371,6 +2551,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2383,6 +2564,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2395,6 +2577,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2407,6 +2590,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2419,6 +2603,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2431,6 +2616,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2443,6 +2629,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2455,6 +2642,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2467,6 +2655,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2479,6 +2668,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2491,6 +2681,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2503,6 +2694,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2515,6 +2707,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2527,6 +2720,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2539,6 +2733,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2551,6 +2746,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2563,6 +2759,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2575,6 +2772,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2587,6 +2785,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2599,6 +2798,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2611,6 +2811,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2623,6 +2824,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2635,6 +2837,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2647,6 +2850,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2659,6 +2863,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2671,6 +2876,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2683,6 +2889,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2695,6 +2902,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2707,6 +2915,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2719,6 +2928,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2731,6 +2941,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2743,6 +2954,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2755,6 +2967,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2767,6 +2980,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2779,6 +2993,7 @@
           "name": "loadShader",
           "parameterTypes": [
             "com.sun.prism.ps.ShaderFactory",
+            "java.lang.String",
             "java.io.InputStream"
           ]
         }
@@ -2828,6 +3043,14 @@
           "parameterTypes": [
             "java.lang.String"
           ]
+        }
+      ],
+      "fields": [
+        {
+          "name": "FALSE"
+        },
+        {
+          "name": "TRUE"
         }
       ]
     },
@@ -2883,6 +3106,18 @@
       ]
     },
     {
+      "type": "java.lang.Object",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "equals",
+          "parameterTypes": [
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
       "type": "java.lang.Runnable",
       "jniAccessible": true,
       "methods": [
@@ -2898,6 +3133,15 @@
     },
     {
       "type": "java.lang.String[]"
+    },
+    {
+      "type": "java.lang.System",
+      "methods": [
+        {
+          "name": "getSecurityManager",
+          "parameterTypes": []
+        }
+      ]
     },
     {
       "type": "java.nio.ByteBuffer",
@@ -2920,6 +3164,47 @@
       ]
     },
     {
+      "type": "java.util.Collections",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "unmodifiableMap",
+          "parameterTypes": [
+            "java.util.Map"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.util.HashMap",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "containsKey",
+          "parameterTypes": [
+            "java.lang.Object"
+          ]
+        },
+        {
+          "name": "get",
+          "parameterTypes": [
+            "java.lang.Object"
+          ]
+        },
+        {
+          "name": "put",
+          "parameterTypes": [
+            "java.lang.Object",
+            "java.lang.Object"
+          ]
+        }
+      ]
+    },
+    {
       "type": "java.util.List",
       "jniAccessible": true,
       "methods": [
@@ -2936,12 +3221,35 @@
       "jniAccessible": true,
       "methods": [
         {
+          "name": "containsKey",
+          "parameterTypes": [
+            "java.lang.Object"
+          ]
+        },
+        {
           "name": "get",
           "parameterTypes": [
             "java.lang.Object"
           ]
+        },
+        {
+          "name": "keySet",
+          "parameterTypes": []
+        },
+        {
+          "name": "put",
+          "parameterTypes": [
+            "java.lang.Object",
+            "java.lang.Object"
+          ]
         }
       ]
+    },
+    {
+      "type": "javafx.animation.Interpolator"
+    },
+    {
+      "type": "javafx.css.Rule"
     },
     {
       "type": "javafx.scene.AmbientLight"
@@ -2983,6 +3291,9 @@
       "type": "javafx.scene.control.Control"
     },
     {
+      "type": "javafx.scene.control.Labeled"
+    },
+    {
       "type": "javafx.scene.image.Image"
     },
     {
@@ -2990,6 +3301,21 @@
     },
     {
       "type": "javafx.scene.layout.Region"
+    },
+    {
+      "type": "javafx.scene.paint.Color",
+      "jniAccessible": true,
+      "methods": [
+        {
+          "name": "rgb",
+          "parameterTypes": [
+            "int",
+            "int",
+            "int",
+            "double"
+          ]
+        }
+      ]
     },
     {
       "type": "javafx.scene.paint.Material"
