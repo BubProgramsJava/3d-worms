@@ -16,6 +16,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
@@ -728,9 +729,9 @@ public class Main extends Application {
             } else if (key == KeyCode.UP || key == KeyCode.DOWN || key == KeyCode.LEFT || key == KeyCode.RIGHT) {
                 remappingAction = null;
                 settingsMessage = "Arrow keys are reserved. Choose another key.";
-            } else if (key == KeyCode.ENTER || key == KeyCode.SPACE || key == KeyCode.C) {
+            } else if (key == KeyCode.ENTER || key == KeyCode.SPACE || key == KeyCode.C || key == KeyCode.Q) {
                 remappingAction = null;
-                settingsMessage = "Enter, Space, and C are reserved. Choose another key.";
+                settingsMessage = "Enter, Space, C, and Q are reserved. Choose another key.";
             } else {
                 setControlKey(remappingAction, key);
                 remappingAction = null;
@@ -739,6 +740,10 @@ public class Main extends Application {
                 saveProfile();
             }
             showSettingsMenu();
+            return;
+        }
+        if (key == KeyCode.Q && quitKeyActive()) {
+            exitGame();
             return;
         }
         if (key == KeyCode.ESCAPE) {
@@ -783,6 +788,15 @@ public class Main extends Application {
                 queuedDirection = requested;
             }
         }
+    }
+
+    /**
+     * Q quits from the main menu screens and the pause menu, but not during play, where it sits
+     * next to the movement keys, and not while a text field such as the player name has focus.
+     */
+    private boolean quitKeyActive() {
+        if (stage.getScene().getFocusOwner() instanceof TextInputControl) return false;
+        return mainMenuLayer.isVisible() || (menuOpen && menuLayer.isVisible());
     }
 
     private void openPauseMenu() {
@@ -872,6 +886,9 @@ public class Main extends Application {
                 playButton, duel, lan, customize, settings, exit);
         mainMenuLayer.getChildren().setAll(menuPanel);
         updateNameControls();
+        // A returning player starts on Play, so menu keys such as Q work straight away; a new
+        // player starts in the name field so they can type their name at once.
+        if (!lastPlayerName.isBlank()) Platform.runLater(playButton::requestFocus);
     }
 
     /**
