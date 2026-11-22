@@ -129,6 +129,7 @@ public class Main extends Application {
     private Label nameStatusLabel;
     private Button claimNameButton;
     private Button playButton;
+    private Button fullScreenButton;
     private long nextNameRefresh;
     private double cameraDistance = 30;
     private double orbitZoom = 1;
@@ -137,6 +138,8 @@ public class Main extends Application {
     private double lastCameraMouseX;
     private double lastCameraMouseY;
     private boolean orbitCamera;
+    /** The player's full-screen choice, toggled with F11 and kept in the profile. */
+    private boolean fullScreen = true;
     private boolean orbitDragging;
 
     @Override
@@ -236,11 +239,19 @@ public class Main extends Application {
         stage.setMinWidth(620);
         stage.setMinHeight(500);
         stage.setResizable(true);
-        stage.setFullScreenExitHint("The Main Menu is full screen");
+        stage.setFullScreenExitHint("Press F11 to leave full screen");
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.setScene(scene);
         stage.show();
-        stage.setFullScreen(true);
+        stage.setFullScreen(fullScreen);
+        // The window manager can also leave full screen; keep the saved choice in step with it.
+        stage.fullScreenProperty().addListener((observable, wasFullScreen, isFullScreen) -> {
+            if (isFullScreen != fullScreen) {
+                fullScreen = isFullScreen;
+                saveProfile();
+                refreshFullScreenControls();
+            }
+        });
         stage.setOnCloseRequest(event -> {
             if (lanService != null) lanService.close();
         });
@@ -280,7 +291,6 @@ public class Main extends Application {
 
     private void beginLanMatch() {
         if (gameMode != GameMode.LAN) return;
-        stage.setFullScreen(false);
         mainMenuLayer.setVisible(false);
         menuLayer.setVisible(false);
         lanCountdown = 0;
@@ -722,6 +732,10 @@ public class Main extends Application {
     }
 
     private void handleKey(KeyCode key) {
+        if (key == KeyCode.F11) {
+            toggleFullScreen();
+            return;
+        }
         if (remappingAction != null) {
             if (key == KeyCode.ESCAPE) {
                 remappingAction = null;
@@ -833,7 +847,6 @@ public class Main extends Application {
         }
         mainMenuLayer.setVisible(false);
         menuLayer.setVisible(false);
-        stage.setFullScreen(false);
         running = true;
         menuOpen = false;
         messageText.setText("");
@@ -845,7 +858,6 @@ public class Main extends Application {
         restart();
         mainMenuLayer.setVisible(false);
         menuLayer.setVisible(false);
-        stage.setFullScreen(false);
         running = true;
     }
 
@@ -853,7 +865,6 @@ public class Main extends Application {
         menuOpen = false;
         menuLayer.setVisible(false);
         mainMenuLayer.setVisible(true);
-        stage.setFullScreen(true);
         menuPanel = createMenuPanel();
 
         Label title = menuTitle("3D WORM");
@@ -1039,12 +1050,14 @@ public class Main extends Application {
         Button right = controlButton(GameAction.RIGHT, "Right", keyRight, "RIGHT");
         Label status = new Label(remappingAction == null ? settingsMessage : "Press a key for " + actionName(remappingAction) + " (Escape cancels)");
         status.setTextFill(Color.web("#ffe49a"));
+        fullScreenButton = menuButton(fullScreenLabel());
+        fullScreenButton.setOnAction(event -> toggleFullScreen());
         Button back = menuButton("Back to Main Menu");
         back.setOnAction(event -> {
             remappingAction = null;
             showMainMenu();
         });
-        menuPanel.getChildren().setAll(title, explanation, away, toward, left, right, status, back);
+        menuPanel.getChildren().setAll(title, explanation, away, toward, left, right, fullScreenButton, status, back);
         mainMenuLayer.getChildren().setAll(menuPanel);
         mainMenuLayer.setVisible(true);
     }
@@ -1392,11 +1405,26 @@ public class Main extends Application {
         }
     }
 
+    private void toggleFullScreen() {
+        fullScreen = !fullScreen;
+        stage.setFullScreen(fullScreen);
+        saveProfile();
+        refreshFullScreenControls();
+    }
+
+    private String fullScreenLabel() {
+        return "Full Screen: " + (fullScreen ? "On" : "Off") + " (F11)";
+    }
+
+    private void refreshFullScreenControls() {
+        if (fullScreenButton != null) fullScreenButton.setText(fullScreenLabel());
+    }
+
     private void updateControlsHint() {
         if (controlsText != null) {
             controlsText.setText(keyAway.getName() + " / UP: AWAY   " + keyToward.getName() + " / DOWN: TOWARD   "
                     + keyLeft.getName() + " / LEFT   " + keyRight.getName() + " / RIGHT   |   C: "
-                    + (orbitCamera ? "FOLLOW CAMERA" : "ORBIT CAMERA (RMB + SCROLL)") + "   |   ESC: MENU");
+                    + (orbitCamera ? "FOLLOW CAMERA" : "ORBIT CAMERA (RMB + SCROLL)") + "   |   F11: FULL SCREEN   |   ESC: MENU");
         }
     }
 
@@ -1799,6 +1827,7 @@ public class Main extends Application {
         keyLeft = readKey(profile, "keyLeft", KeyCode.A);
         keyRight = readKey(profile, "keyRight", KeyCode.D);
         lastPlayerName = profile.getProperty("lastPlayerName", "");
+        fullScreen = Boolean.parseBoolean(profile.getProperty("fullScreen", "true"));
         profileId = profile.getProperty("profileId", profileId);
         try {
             lastNameChangeMillis = Long.parseLong(profile.getProperty("lastNameChangeMillis", "0"));
@@ -1841,6 +1870,7 @@ public class Main extends Application {
         profile.setProperty("keyLeft", keyLeft.name());
         profile.setProperty("keyRight", keyRight.name());
         profile.setProperty("lastPlayerName", lastPlayerName);
+        profile.setProperty("fullScreen", Boolean.toString(fullScreen));
         profile.setProperty("profileId", profileId);
         profile.setProperty("lastNameChangeMillis", Long.toString(lastNameChangeMillis));
         dataStore.saveProfile(profile);
