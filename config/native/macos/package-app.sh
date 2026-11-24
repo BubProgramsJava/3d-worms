@@ -73,6 +73,14 @@ dmg_root="$stage_dir/dmg"
 mkdir -p "$dmg_root"
 cp -R "$bundle" "$dmg_root/"
 ln -s /Applications "$dmg_root/Applications"
-hdiutil create -quiet -volname "$app_name" -srcfolder "$dmg_root" -ov -format UDZO "$dmg_path"
+
+# hdiutil's auto-sizing for -srcfolder can underestimate APFS container overhead on
+# macOS 15 and fail with "No space left on device" while copying the native image.
+# Size the image explicitly from apparent file sizes with headroom; UDZO compresses
+# the unused blocks away. Omit -quiet so hdiutil errors stay visible in build logs.
+content_bytes=$(find "$dmg_root" -type f -exec stat -f '%z' {} + | awk '{sum += $1} END {print sum + 0}')
+dmg_size_mb=$(( (content_bytes + 1048575) / 1048576 + 64 ))
+
+hdiutil create -volname "$app_name" -srcfolder "$dmg_root" -size "${dmg_size_mb}m" -ov -format UDZO "$dmg_path"
 
 echo "Wrote $dmg_path"
